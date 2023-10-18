@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
 
     // MARK: - IBOutlet
     
@@ -34,10 +34,7 @@ class ImagesListViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-//        tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
-        
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        
     }
     
     // MARK: - Methods
@@ -60,10 +57,10 @@ class ImagesListViewController: UIViewController {
         } else {
             cell.likeButton.setImage(UIImage(named: "No Active"), for: .normal)
         }
-        
     }
-
 }
+
+    // MARK: - UITableViewDataSource
 
 extension ImagesListViewController: UITableViewDataSource {
     
@@ -81,8 +78,9 @@ extension ImagesListViewController: UITableViewDataSource {
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
-    
 }
+
+    // MARK: - UITableViewDelegate
 
 extension ImagesListViewController: UITableViewDelegate {
     

@@ -11,10 +11,10 @@ import UIKit
 final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCell"
     
-    @IBOutlet var pictureImageView: UIImageView!
-    @IBOutlet var dateLabel: UILabel!
-    @IBOutlet var likeButton: UIButton!
-    @IBOutlet var gradientView: UIView!
+    @IBOutlet weak var pictureImageView: UIImageView!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var gradientView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
