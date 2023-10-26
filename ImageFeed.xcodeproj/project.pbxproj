@@ -15,6 +15,8 @@
 		5A5CAFBE2AD05BE60097497E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A5CAFBC2AD05BE60097497E /* LaunchScreen.storyboard */; };
 		5A5CAFED2AD58EA10097497E /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5CAFEC2AD58EA10097497E /* UIColor+Extensions.swift */; };
 		5A5CAFEF2AD6C8F30097497E /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5CAFEE2AD6C8F30097497E /* ImagesListCell.swift */; };
+		5A5CAFF42AE1A4C00097497E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5CAFF32AE1A4C00097497E /* ProfileViewController.swift */; };
+		5A5CAFF62AE41E750097497E /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5CAFF52AE41E740097497E /* SingleImageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		5A5CAFBF2AD05BE60097497E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A5CAFEC2AD58EA10097497E /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		5A5CAFEE2AD6C8F30097497E /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		5A5CAFF32AE1A4C00097497E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		5A5CAFF52AE41E740097497E /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +79,8 @@
 				5A5CAFB52AD05BE30097497E /* ImagesListViewController.swift */,
 				5A5CAFB72AD05BE30097497E /* Main.storyboard */,
 				5A5CAFEE2AD6C8F30097497E /* ImagesListCell.swift */,
+				5A5CAFF32AE1A4C00097497E /* ProfileViewController.swift */,
+				5A5CAFF52AE41E740097497E /* SingleImageViewController.swift */,
 			);
 			path = ImagesList;
 			sourceTree = "<group>";
@@ -168,8 +174,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A5CAFF42AE1A4C00097497E /* ProfileViewController.swift in Sources */,
 				5A5CAFB62AD05BE30097497E /* ImagesListViewController.swift in Sources */,
 				5A5CAFB22AD05BE30097497E /* AppDelegate.swift in Sources */,
+				5A5CAFF62AE41E750097497E /* SingleImageViewController.swift in Sources */,
 				5A5CAFEF2AD6C8F30097497E /* ImagesListCell.swift in Sources */,
 				5A5CAFB42AD05BE30097497E /* SceneDelegate.swift in Sources */,
 				5A5CAFED2AD58EA10097497E /* UIColor+Extensions.swift in Sources */,
