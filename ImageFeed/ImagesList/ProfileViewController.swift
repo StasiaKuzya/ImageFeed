@@ -43,11 +43,6 @@ final class ProfileViewController: UIViewController {
         
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         
-        profileImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32)
-        profileImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
-        profileImage.heightAnchor.constraint(equalToConstant: 70)
-        profileImage.widthAnchor.constraint(equalToConstant: 70)
-        
         NSLayoutConstraint.activate([
             profileImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
             profileImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
@@ -63,11 +58,6 @@ final class ProfileViewController: UIViewController {
         view.addSubview(logOutButton)
         
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        logOutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
-        logOutButton.heightAnchor.constraint(equalToConstant: 44)
-        logOutButton.widthAnchor.constraint(equalToConstant: 44)
-        logOutButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor)
 
         NSLayoutConstraint.activate([
             logOutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
@@ -88,9 +78,6 @@ final class ProfileViewController: UIViewController {
         
         userName.translatesAutoresizingMaskIntoConstraints = false
         
-        userName.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 8)
-        userName.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
-        
         NSLayoutConstraint.activate([
             userName.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 8),
             userName.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
@@ -107,9 +94,6 @@ final class ProfileViewController: UIViewController {
         
         userLogin.translatesAutoresizingMaskIntoConstraints = false
         
-        userLogin.topAnchor.constraint(equalTo: userName.bottomAnchor, constant: 8)
-        userLogin.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
-        
         NSLayoutConstraint.activate([
             userLogin.topAnchor.constraint(equalTo: userName.bottomAnchor, constant: 8),
             userLogin.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
@@ -125,9 +109,6 @@ final class ProfileViewController: UIViewController {
         view.addSubview(userDescription)
         
         userDescription.translatesAutoresizingMaskIntoConstraints = false
-        
-        userDescription.topAnchor.constraint(equalTo: userLogin.bottomAnchor, constant: 8)
-        userDescription.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
         
         NSLayoutConstraint.activate([
             userDescription.topAnchor.constraint(equalTo: userLogin.bottomAnchor, constant: 8),

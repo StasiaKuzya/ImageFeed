@@ -22,7 +22,7 @@ class SingleImageViewController: UIViewController {
     
     // MARK: - IBOutlet
     
-    @IBOutlet var imageView: UIImageView!
+    @IBOutlet private var imageView: UIImageView!
     @IBOutlet var scrollView: UIScrollView!
     
     // MARK: - Lifecycle
