@@ -20,6 +20,8 @@ class AuthViewController: UIViewController {
     let webViewViewController = WebViewViewController()
     let oAuth2Service = OAuth2Service()
     let tokenStorage = OAuth2TokenStorage()
+    
+    weak var delegate: AuthViewControllerDelegate?
 
     // MARK: - IBOutlet
     
@@ -40,33 +42,10 @@ class AuthViewController: UIViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
 
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        oAuth2Service.fetchOAuthToken(code) { result in
-            switch result {
-            case .success(let accessToken):
-                // Сохраняем Bearer Token
-                self.tokenStorage.token = accessToken
-                print("Succeed to fetch Bearer Token:")
-
-            case .failure(let error):
-                print("Failed to fetch Bearer Token: \(error)")
-            }
-        }
-        
-//        oAuth2Service.fetchAuthToken(code: code) { result in
-//            switch result {
-//            case .success(let accessToken):
-//                // Сохраняем Bearer Token
-//                self.tokenStorage.token = accessToken
-//                print("Succeed to fetch Bearer Token:")
-//
-//            case .failure(let error):
-//                print("Failed to fetch Bearer Token: \(error)")
-//            }
-//        }
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true, completion: nil)
     }
 }
-

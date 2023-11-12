@@ -321,7 +321,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="AOa-6w-iYg">
             <objects>
-                <tabBarController id="bOR-Ed-ngn" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="bOR-Ed-ngn" customClass="TabBarController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="LLg-Hw-Yn0">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -342,7 +342,7 @@
         <!--Splash View Controller-->
         <scene sceneID="gO9-86-TPO">
             <objects>
-                <viewController id="nmA-r2-B2e" customClass="SplashViewController" sceneMemberID="viewController">
+                <viewController id="nmA-r2-B2e" customClass="SplashViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jD8-Lo-dhg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -363,7 +363,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="qu5-jV-30H"/>
                     <connections>
-                        <segue destination="mNS-cO-Pp7" kind="show" identifier="ShowAuthenticationScreenSegueIdentifier" id="5nb-4d-TyM"/>
+                        <segue destination="mNS-cO-Pp7" kind="presentation" identifier="ShowAuthenticationScreenSegueId" id="5nb-4d-TyM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9K0-Dl-dyQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
