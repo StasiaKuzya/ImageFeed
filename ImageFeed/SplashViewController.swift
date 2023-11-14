@@ -13,7 +13,7 @@ class SplashViewController: UIViewController {
     // MARK: -  Properties & Constants
     
     private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreenSegueId"
-    private let oauth2Service = OAuth2Service()
+    private let oauth2Service = OAuth2Service.shared
     private let oauth2TokenStorage = OAuth2TokenStorage()
     
     // MARK: - Lifecycle

@@ -18,7 +18,7 @@ class AuthViewController: UIViewController {
     
     let ShowWebViewIdentifier = "ShowWebView"
     let webViewViewController = WebViewViewController()
-    let oAuth2Service = OAuth2Service()
+    let oAuth2Service = OAuth2Service.shared
     let tokenStorage = OAuth2TokenStorage()
     
     weak var delegate: AuthViewControllerDelegate?

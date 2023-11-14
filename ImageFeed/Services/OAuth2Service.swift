@@ -9,13 +9,20 @@ import Foundation
 
 final class OAuth2Service {
     static let shared = OAuth2Service()
-    private let urlSession = URLSession.shared
+    
+    private init() {
+        self.urlSession = URLSession.shared
+    }
+    
+    private let urlSession: URLSession
+    
+    private var oauth2TokenStorage = OAuth2TokenStorage()
     private (set) var authToken: String? {
         get {
-            return OAuth2TokenStorage().token
+            return oauth2TokenStorage.token
         }
         set {
-            OAuth2TokenStorage().token = newValue
+            oauth2TokenStorage.token = newValue
         }
     }
     func fetchOAuthToken(
@@ -116,85 +123,3 @@ extension URLSession {
         return task
     }
 }
-
-
-
-//import Foundation
-//
-//class OAuth2Service {
-//
-//    func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-//
-//        let url = URL(string: "https://unsplash.com/oauth/token")!
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-//
-//        let parameters: [String: String] = [
-//            "client_id": AccessKey,
-//            "client_secret": SecretKey,
-//            "redirect_uri": RedirectURI,
-//            "code": code,
-//            "grant_type": "authorization_code"
-//        ]
-//
-//        request.httpBody = parameters.percentEncoded()
-//        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-//
-//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-//            if let error = error {
-//                DispatchQueue.main.async {
-//                    completion(.failure(error))
-//                }
-//                return
-//            }
-//
-//            guard let httpResponse = response as? HTTPURLResponse else {
-//                DispatchQueue.main.async {
-//                    completion(.failure(NetworkError.invalidResponse))
-//                }
-//                return
-//            }
-//
-//            if 200...299 ~= httpResponse.statusCode {
-//                if let data = data, let jsonString = String(data: data, encoding: .utf8) {
-//                    do {
-//                        let oauthResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: Data(jsonString.utf8))
-//                        let accessToken = oauthResponse.accessToken
-//                        DispatchQueue.main.async {
-//                            completion(.success(accessToken))
-//                        }
-//                    } catch {
-//                        DispatchQueue.main.async {
-//                            completion(.failure(error))
-//                        }
-//                    }
-//                }
-//            } else {
-//                DispatchQueue.main.async {
-//                    completion(.failure(NetworkError.invalidStatusCode(httpResponse.statusCode)))
-//                }
-//            }
-//        }
-//
-//        task.resume()
-//    }
-//}
-//
-//enum NetworkError: Error {
-//    case invalidResponse
-//    case invalidStatusCode(Int)
-//}
-//
-//extension Dictionary where Key == String, Value == String {
-//    func percentEncoded() -> Data? {
-//        let allowedCharacters = CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]").inverted
-//
-//        return map { key, value in
-//            let escapedKey = key.addingPercentEncoding(withAllowedCharacters: allowedCharacters) ?? ""
-//            let escapedValue = value.addingPercentEncoding(withAllowedCharacters: allowedCharacters) ?? ""
-//            return escapedKey + "=" + escapedValue
-//        }
-//        .joined(separator: "&")
-//        .data(using: .utf8)
-//    }
-//}
