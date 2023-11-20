@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import ProgressHUD
 
 class SplashViewController: UIViewController {
     
@@ -56,6 +57,7 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        UIBlockingProgressHUD.show()
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
             self.fetchOAuthToken(code)
@@ -69,8 +71,10 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success:
                 print("Successfully fetched OAuth Token")
                 self.switchToTabBarController()
+                UIBlockingProgressHUD.dismiss()
             case .failure:
                 print("Failed to fetch OAuth Token")
+                UIBlockingProgressHUD.dismiss()
 //                 //TODO [Sprint 11]
 //                break
             }

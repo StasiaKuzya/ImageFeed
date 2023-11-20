@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController, ProfileServiceDelegate {
     
     // MARK: - Private Constants
     
@@ -17,6 +17,9 @@ final class ProfileViewController: UIViewController {
     private let userName = UILabel()
     private let userLogin = UILabel()
     private let userDescription = UILabel()
+    
+    private var profileLoader: ProfileLoaderProtocol?
+    
     
     // MARK: - Lifecycle
     
@@ -29,6 +32,10 @@ final class ProfileViewController: UIViewController {
         creationOfUserName()
         creationOfUserLogin()
         creationOfUserDescription()
+        
+//        loadProfile()
+        profileLoader = ProfileLoader(profileService: ProfileService(), delegate: self)
+        profileLoader?.loadProfile1()
     }
     
     // MARK: - Private Methods
@@ -69,7 +76,7 @@ final class ProfileViewController: UIViewController {
 
     private func creationOfUserName() {
 
-        userName.text = "Екатерина Новикова"
+        userName.text = "Name Surname"
         userName.font = UIFont(name: "SF Pro", size: 23)
         userName.font = UIFont.boldSystemFont(ofSize: 23)
         userName.textColor = .ypWhite
@@ -86,7 +93,7 @@ final class ProfileViewController: UIViewController {
 
     private func creationOfUserLogin() {
 
-        userLogin.text = "@ekaterina_nov"
+        userLogin.text = "@test"
         userLogin.font = UIFont(name: "SF Pro", size: 13)
         userLogin.textColor = .ypGray
         
@@ -102,7 +109,7 @@ final class ProfileViewController: UIViewController {
     
     private func creationOfUserDescription() {
 
-        userDescription.text = "Hello, world!"
+        userDescription.text = "test"
         userDescription.font = UIFont(name: "SF Pro", size: 13)
         userDescription.textColor = .ypWhite
         
@@ -115,4 +122,37 @@ final class ProfileViewController: UIViewController {
             userDescription.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
         ])
     }
+    
+
+    func show(model: ProfileData) {
+        DispatchQueue.main.async { [weak self] in
+            self?.userLogin.text = model.userLogin
+            self?.userName.text = model.userName
+            self?.userDescription.text = model.userDescription
+        }
+    }
+    
+    func convert(model: ProfileResult) -> ProfileData {
+        let bioValue = model.bio ?? ""
+        let profileData = ProfileData(userLogin: "@\(model.userLogin)",
+                                      userName: "\(model.firstName) \(model.lastName)",
+                                      userDescription: bioValue)
+        return profileData
+    }
+    
+//    private func loadProfile() {
+//        ProfileService().fetchProfile("") { result in
+//            switch result {
+//            case .success(let profileResult):
+//                let profileData = self.convert(model: profileResult)
+//                DispatchQueue.main.async {
+//                    self.show(model: profileData)
+//
+//                }
+//            case .failure(let error):
+//                print("Error fetching profile: \(error)")
+//            }
+//        }
+//    }
+
 }

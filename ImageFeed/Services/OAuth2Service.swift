@@ -25,27 +25,52 @@ final class OAuth2Service {
             oauth2TokenStorage.token = newValue
         }
     }
+    private var lastCode: String?
+    private var task: URLSessionTask?
+    
     func fetchOAuthToken(
         _ code: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
+        assert(Thread.isMainThread)
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
+        
         let request = authTokenRequest(code: code)
         print("OAuth Token Request: \(request)")
-
+        
         let task = object(for: request) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let body):
-                let authToken = body.accessToken
-                self.authToken = authToken
-                completion(.success(authToken))
-            case .failure(let error):
-                completion(.failure(error))
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let body):
+                    let authToken = body.accessToken
+                    self?.authToken = authToken
+                    completion(.success(authToken))
+                case .failure(let error):
+                    completion(.failure(error))
+
+                        self?.lastCode = nil
+                }
+                self?.task = nil
             }
         }
-        task.resume()
+            
+            //        let task = object(for: request) { [weak self] result in
+            //            guard let self = self else { return }
+            //            switch result {
+            //            case .success(let body):
+            //                let authToken = body.accessToken
+            //                self.authToken = authToken
+            //                completion(.success(authToken))
+            //            case .failure(let error):
+            //                completion(.failure(error))
+            //            }
+            //        }
+            self.task = task
+            task.resume()
+        }
     }
-}
 
 extension OAuth2Service {
     private func object(
