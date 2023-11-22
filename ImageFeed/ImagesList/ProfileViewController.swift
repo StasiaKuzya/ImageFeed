@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class ProfileViewController: UIViewController, ProfileServiceDelegate {
+final class ProfileViewController: UIViewController {
     
     // MARK: - Private Constants
     
@@ -18,8 +18,7 @@ final class ProfileViewController: UIViewController, ProfileServiceDelegate {
     private let userLogin = UILabel()
     private let userDescription = UILabel()
     
-    private var profileLoader: ProfileLoaderProtocol?
-    
+    private let profileService = ProfileService.shared
     
     // MARK: - Lifecycle
     
@@ -33,9 +32,9 @@ final class ProfileViewController: UIViewController, ProfileServiceDelegate {
         creationOfUserLogin()
         creationOfUserDescription()
         
-//        loadProfile()
-        profileLoader = ProfileLoader(profileService: ProfileService(), delegate: self)
-        profileLoader?.loadProfile1()
+        if let profile = profileService.profile {
+            updateProfileDetails(profile: profile)
+        }
     }
     
     // MARK: - Private Methods
@@ -123,36 +122,29 @@ final class ProfileViewController: UIViewController, ProfileServiceDelegate {
         ])
     }
     
-
-    func show(model: ProfileData) {
+    func updateProfileDetails(profile: ProfileData) {
         DispatchQueue.main.async { [weak self] in
-            self?.userLogin.text = model.userLogin
-            self?.userName.text = model.userName
-            self?.userDescription.text = model.userDescription
+            self?.userLogin.text = profile.userLogin
+            self?.userName.text = profile.userName
+            self?.userDescription.text = profile.userDescription
         }
+        print("Updating UI with profile data")
     }
-    
-    func convert(model: ProfileResult) -> ProfileData {
-        let bioValue = model.bio ?? ""
-        let profileData = ProfileData(userLogin: "@\(model.userLogin)",
-                                      userName: "\(model.firstName) \(model.lastName)",
-                                      userDescription: bioValue)
-        return profileData
-    }
-    
-//    private func loadProfile() {
-//        ProfileService().fetchProfile("") { result in
+//
+//        ProfileService().fetchProfile(token) { [weak self] result in
 //            switch result {
 //            case .success(let profileResult):
-//                let profileData = self.convert(model: profileResult)
+//                // Обновляем метки на основе данных профиля
 //                DispatchQueue.main.async {
-//                    self.show(model: profileData)
-//
+//                    self?.userName.text = "\(profileResult.firstName) \(profileResult.lastName)"
+//                    self?.userLogin.text = "@\(profileResult.userLogin)"
+//                    self?.userDescription.text = profileResult.bio ?? ""
 //                }
 //            case .failure(let error):
-//                print("Error fetching profile: \(error)")
+//                print("Failed to fetch profile: \(error)")
+//
 //            }
 //        }
 //    }
-
+    
 }
