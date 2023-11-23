@@ -28,34 +28,16 @@ final class ProfileService {
         // Устанавливаем заголовок Authorization с Bearer токеном
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
-                // Обработка ошибки, если статус код не в диапазоне 200-299
-                let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
-                let error = NSError(domain: "HTTP", code: statusCode, userInfo: nil)
-                completion(.failure(error))
-                return
-            }
-            
-            // Разбор данных ответа в модель ProfileResult
-            if let data = data {
-                do {
-                    let profileResult = try JSONDecoder().decode(ProfileResult.self, from: data)
+        let task = URLSession.shared.objectTask(for: request) { (result: Result<ProfileResult, Error>) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profileResult):
                     completion(.success(profileResult))
-                } catch {
+                case .failure(let error):
                     completion(.failure(error))
                 }
-            } else {
-                // Обработка сценария, когда данные отсутствуют
-                completion(.failure(NSError(domain: "Data", code: -1, userInfo: nil)))
             }
         }
-        
         task.resume()
     }
 }

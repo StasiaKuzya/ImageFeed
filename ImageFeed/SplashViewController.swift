@@ -19,6 +19,7 @@ class SplashViewController: UIViewController {
     
     private let profileService = ProfileService.shared
 
+
     // MARK: - Lifecycle
     
     override func viewDidAppear(_ animated: Bool) {
@@ -26,7 +27,7 @@ class SplashViewController: UIViewController {
         
         if let token = OAuth2TokenStorage().token {
             fetchProfile(token: token)
-            switchToTabBarController()
+//            switchToTabBarController()
         } else {
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
         }
@@ -76,17 +77,37 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.fetchProfile(token: token)
             case .failure:
                 print("Failed to fetch OAuth Token")
-                UIBlockingProgressHUD.dismiss()
 //                 //TODO [Sprint 11]
-//                break
+                self.showFetchErrorAlert()
+                UIBlockingProgressHUD.dismiss()
+            //break
             }
         }
     }
     
     private func fetchProfile(token: String) {
+        
         profileService.fetchProfile(token) { result in
             switch result {
             case .success(let profileResult):
+                
+                let username = profileResult.userLogin
+                ProfileImageService.shared.fetchProfileImageURL(username: username) { imageResult in
+                    switch imageResult {
+                    case .success(let profileImageURL):
+                        print("Successfully fetched profile image URL: \(profileImageURL)")
+                        
+                        NotificationCenter.default.post(
+                            name: ProfileImageService.DidChangeNotification,
+                            object: self,
+                            userInfo: ["URL": profileImageURL]
+                        )
+                        
+                    case .failure(let error):
+                        print("Error fetching profile image URL: \(error)")
+                    }
+                }
+                
                 let profile = ProfileData(
                     userLogin: "@\(profileResult.userLogin)",
                     userName: "\(profileResult.firstName) \(profileResult.lastName)",
@@ -96,23 +117,37 @@ extension SplashViewController: AuthViewControllerDelegate {
                     self.switchToTabBarController()
                     UIBlockingProgressHUD.dismiss()
                 }
+                
             case .failure(let error):
                 DispatchQueue.main.async {
-                    UIBlockingProgressHUD.dismiss()
-                    // TODO: Показать ошибку загрузки профиля
                     print("Error fetching profile: \(error)")
+                    // TODO: Показать ошибку загрузки профиля
+                    
+                    print("Showing alert on profile screen...")
+                    self.showFetchErrorAlert()
+                    UIBlockingProgressHUD.dismiss()
                 }
             }
         }
     }
-
-//    func convert(model: ProfileResult) -> ProfileData {
-//        let bioValue = model.bio ?? ""
-//        let profile = ProfileData(userLogin: "@\(model.userLogin)",
-//                                  userName: "\(model.firstName) \(model.lastName)",
-//                                  userDescription: bioValue)
-//        return profile
-//    }
+    
+    private func showFetchErrorAlert() {
+        let alertModel = AlertModel(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему",
+            buttonText: "ОК",
+            completion: { [weak self] in
+                // По закрытии алерта, проверяем наличие токена
+                guard let self = self, let token = OAuth2TokenStorage().token else {
+                    return
+                }
+                // Если токен есть, тогда переходим к TabBarController
+                self.fetchProfile(token: token)
+                self.switchToTabBarController()
+            }
+        )
+        AlertPresenter.showAlert(alertModel: alertModel, delegate: self)
+    }
     
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }

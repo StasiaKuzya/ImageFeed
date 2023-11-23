@@ -10,7 +10,7 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    // MARK: - Private Constants
+    // MARK: - Constants & Properties
     
     private let profileImage = UIImageView()
     private let logOutButton = UIButton()
@@ -19,6 +19,7 @@ final class ProfileViewController: UIViewController {
     private let userDescription = UILabel()
     
     private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - Lifecycle
     
@@ -35,6 +36,17 @@ final class ProfileViewController: UIViewController {
         if let profile = profileService.profile {
             updateProfileDetails(profile: profile)
         }
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.DidChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
     }
     
     // MARK: - Private Methods
@@ -130,6 +142,15 @@ final class ProfileViewController: UIViewController {
         }
         print("Updating UI with profile data")
     }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+    }
+    
 //
 //        ProfileService().fetchProfile(token) { [weak self] result in
 //            switch result {

@@ -30,6 +30,11 @@
 		5A6376142B0A5A1400DEE036 /* ProfileResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6376132B0A5A1400DEE036 /* ProfileResult.swift */; };
 		5A6376162B0A8E4400DEE036 /* ProfileData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6376152B0A8E4400DEE036 /* ProfileData.swift */; };
 		5A6376182B0BB1AA00DEE036 /* ProfileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6376172B0BB1AA00DEE036 /* ProfileLoader.swift */; };
+		5A63761A2B0E183100DEE036 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6376192B0E183100DEE036 /* ProfileImageService.swift */; };
+		5A63761C2B0E184E00DEE036 /* UserResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A63761B2B0E184E00DEE036 /* UserResult.swift */; };
+		5A63761E2B0FA39400DEE036 /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A63761D2B0FA39400DEE036 /* URLSession+Extensions.swift */; };
+		5A6376212B0FCC3700DEE036 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6376202B0FCC3700DEE036 /* AlertPresenter.swift */; };
+		5A6376232B0FCC7200DEE036 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6376222B0FCC7200DEE036 /* AlertModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +62,11 @@
 		5A6376132B0A5A1400DEE036 /* ProfileResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResult.swift; sourceTree = "<group>"; };
 		5A6376152B0A8E4400DEE036 /* ProfileData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileData.swift; sourceTree = "<group>"; };
 		5A6376172B0BB1AA00DEE036 /* ProfileLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLoader.swift; sourceTree = "<group>"; };
+		5A6376192B0E183100DEE036 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
+		5A63761B2B0E184E00DEE036 /* UserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResult.swift; sourceTree = "<group>"; };
+		5A63761D2B0FA39400DEE036 /* URLSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
+		5A6376202B0FCC3700DEE036 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		5A6376222B0FCC7200DEE036 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +100,7 @@
 		5A5CAFB02AD05BE30097497E /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				5A63761F2B0FCBF700DEE036 /* AlertPresenter */,
 				5A6376022AFD573C00DEE036 /* Models */,
 				5A6376052AFD586100DEE036 /* Services */,
 				5A6375FF2AF8E17A00DEE036 /* Auth */,
@@ -121,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				5A5CAFEC2AD58EA10097497E /* UIColor+Extensions.swift */,
+				5A63761D2B0FA39400DEE036 /* URLSession+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -150,6 +162,7 @@
 				5A6376032AFD576700DEE036 /* OAuthTokenResponseBody.swift */,
 				5A6376132B0A5A1400DEE036 /* ProfileResult.swift */,
 				5A6376152B0A8E4400DEE036 /* ProfileData.swift */,
+				5A63761B2B0E184E00DEE036 /* UserResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -161,8 +174,18 @@
 				5A6376082AFD67B500DEE036 /* OAuth2TokenStorage.swift */,
 				5A6376112B0A59FA00DEE036 /* ProfileService.swift */,
 				5A6376172B0BB1AA00DEE036 /* ProfileLoader.swift */,
+				5A6376192B0E183100DEE036 /* ProfileImageService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		5A63761F2B0FCBF700DEE036 /* AlertPresenter */ = {
+			isa = PBXGroup;
+			children = (
+				5A6376202B0FCC3700DEE036 /* AlertPresenter.swift */,
+				5A6376222B0FCC7200DEE036 /* AlertModel.swift */,
+			);
+			path = AlertPresenter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,19 +269,24 @@
 				5A6376122B0A59FA00DEE036 /* ProfileService.swift in Sources */,
 				5A5CAFF42AE1A4C00097497E /* ProfileViewController.swift in Sources */,
 				5A6376072AFD587300DEE036 /* OAuth2Service.swift in Sources */,
+				5A6376232B0FCC7200DEE036 /* AlertModel.swift in Sources */,
 				5A5CAFB62AD05BE30097497E /* ImagesListViewController.swift in Sources */,
+				5A63761C2B0E184E00DEE036 /* UserResult.swift in Sources */,
 				5A5CAFB22AD05BE30097497E /* AppDelegate.swift in Sources */,
 				5A63760B2AFE590200DEE036 /* SplashViewController.swift in Sources */,
 				5A6376182B0BB1AA00DEE036 /* ProfileLoader.swift in Sources */,
 				5A6376042AFD576700DEE036 /* OAuthTokenResponseBody.swift in Sources */,
 				5A6376142B0A5A1400DEE036 /* ProfileResult.swift in Sources */,
 				5A5CAFF62AE41E750097497E /* SingleImageViewController.swift in Sources */,
+				5A63761E2B0FA39400DEE036 /* URLSession+Extensions.swift in Sources */,
 				5A6376102B0A521C00DEE036 /* UIBlockingProgressHUD.swift in Sources */,
 				5A6376162B0A8E4400DEE036 /* ProfileData.swift in Sources */,
+				5A6376212B0FCC3700DEE036 /* AlertPresenter.swift in Sources */,
 				5A5CAFEF2AD6C8F30097497E /* ImagesListCell.swift in Sources */,
 				5A5CAFB42AD05BE30097497E /* SceneDelegate.swift in Sources */,
 				5A5CAFED2AD58EA10097497E /* UIColor+Extensions.swift in Sources */,
 				5A6375FE2AF8D88A00DEE036 /* AuthViewController.swift in Sources */,
+				5A63761A2B0E183100DEE036 /* ProfileImageService.swift in Sources */,
 				5A6376092AFD67B500DEE036 /* OAuth2TokenStorage.swift in Sources */,
 				5A6375FC2AF4EB6100DEE036 /* Constants.swift in Sources */,
 			);
