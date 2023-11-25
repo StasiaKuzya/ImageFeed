@@ -12,7 +12,12 @@ class ProfileImageService {
     static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     static let shared = ProfileImageService()
     private (set) var avatarURL: String?
+//    var avatarURL: String?
     init() {}
+    
+    func setAvatarURL(_ url: String) {
+        avatarURL = url
+    }
     
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void){
 

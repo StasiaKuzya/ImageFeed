@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
@@ -19,6 +20,7 @@ final class ProfileViewController: UIViewController {
     private let userDescription = UILabel()
     
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - Lifecycle
@@ -148,7 +150,12 @@ final class ProfileViewController: UIViewController {
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
-        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+                // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+                  let processor = RoundCornerImageProcessor(cornerRadius: 70/2)
+                  profileImage.kf.indicatorType = .activity
+                  profileImage.kf.setImage(with: url,
+                                           placeholder: UIImage(named: "tab_profile_active"),
+                                           options: [.processor(processor)])
     }
     
 //

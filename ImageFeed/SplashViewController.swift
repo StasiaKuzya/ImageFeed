@@ -18,6 +18,7 @@ class SplashViewController: UIViewController {
     private let oauth2TokenStorage = OAuth2TokenStorage()
     
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
 
 
     // MARK: - Lifecycle
@@ -96,6 +97,8 @@ extension SplashViewController: AuthViewControllerDelegate {
                     switch imageResult {
                     case .success(let profileImageURL):
                         print("Successfully fetched profile image URL: \(profileImageURL)")
+//                        self.profileImageService.avatarURL = profileImageURL
+                        self.profileImageService.setAvatarURL(profileImageURL)
                         
                         NotificationCenter.default.post(
                             name: ProfileImageService.DidChangeNotification,
