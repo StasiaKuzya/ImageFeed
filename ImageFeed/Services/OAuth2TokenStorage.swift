@@ -6,14 +6,30 @@
 //
 
 import Foundation
+import SwiftKeychainWrapper
+
+//class OAuth2TokenStorage {
+//    var token: String? {
+//        get {
+//            return UserDefaults.standard.string(forKey: "BearerToken")
+//        }
+//        set {
+//            UserDefaults.standard.set(newValue, forKey: "BearerToken")
+//        }
+//    }
+//}
 
 class OAuth2TokenStorage {
     var token: String? {
         get {
-            return UserDefaults.standard.string(forKey: "BearerToken")
+            return KeychainWrapper.standard.string(forKey: "BearerToken")
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "BearerToken")
+            if let newValue = newValue {
+                KeychainWrapper.standard.set(newValue, forKey: "BearerToken")
+            } else {
+                KeychainWrapper.standard.removeObject(forKey: "BearerToken")
+            }
         }
     }
 }

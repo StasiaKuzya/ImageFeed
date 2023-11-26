@@ -151,7 +151,7 @@ final class ProfileViewController: UIViewController {
             let url = URL(string: profileImageURL)
         else { return }
                 // TODO [Sprint 11] Обновить аватар, используя Kingfisher
-                  let processor = RoundCornerImageProcessor(cornerRadius: 70/2)
+        let processor = RoundCornerImageProcessor(cornerRadius: 70/2, backgroundColor: .ypBlack)
                   profileImage.kf.indicatorType = .activity
                   profileImage.kf.setImage(with: url,
                                            placeholder: UIImage(named: "tab_profile_active"),
