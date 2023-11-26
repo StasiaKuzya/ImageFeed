@@ -18,8 +18,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="LFC-T1-tYp">
-                                <rect key="frame" x="159" y="319" width="75" height="214"/>
+                                <rect key="frame" x="159" y="387" width="75" height="78"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="77.679000000000002" id="6ik-qq-fi6"/>
                                     <constraint firstAttribute="width" constant="75" id="Cy3-3v-NOt"/>
                                 </constraints>
                             </imageView>
