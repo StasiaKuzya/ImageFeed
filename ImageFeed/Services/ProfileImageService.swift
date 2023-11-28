@@ -7,13 +7,13 @@
 
 import Foundation
 
-class ProfileImageService {
+final class ProfileImageService {
     
     static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     static let shared = ProfileImageService()
     private (set) var avatarURL: String?
-//    var avatarURL: String?
-    init() {}
+
+    private init() {}
     
     func setAvatarURL(_ url: String) {
         avatarURL = url

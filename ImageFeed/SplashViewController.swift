@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import ProgressHUD
 
 class SplashViewController: UIViewController {
     
@@ -32,9 +31,7 @@ class SplashViewController: UIViewController {
         
         if let token = OAuth2TokenStorage().token {
             fetchProfile(token: token)
-//            switchToTabBarController()
         } else {
-//            performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
             presentAuthViewController()
         }
     }
@@ -77,20 +74,6 @@ class SplashViewController: UIViewController {
     }
 }
 
-//extension SplashViewController {
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
-//            guard
-//                let navigationController = segue.destination as? UINavigationController,
-//                let viewController = navigationController.viewControllers[0] as? AuthViewController
-//            else { fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)") }
-//            viewController.delegate = self
-//        } else {
-//            super.prepare(for: segue, sender: sender)
-//        }
-//    }
-//}
-
     // MARK: - AuthViewControllerDelegate
 
 extension SplashViewController: AuthViewControllerDelegate {
@@ -111,10 +94,8 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.fetchProfile(token: token)
             case .failure:
                 print("Failed to fetch OAuth Token")
-//                 //TODO [Sprint 11]
                 self.showFetchErrorAlert()
                 UIBlockingProgressHUD.dismiss()
-            //break
             }
         }
     }
@@ -126,11 +107,10 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success(let profileResult):
                 
                 let username = profileResult.userLogin
-                ProfileImageService.shared.fetchProfileImageURL(username: username) { imageResult in
+                self.profileImageService.fetchProfileImageURL(username: username) { imageResult in
                     switch imageResult {
                     case .success(let profileImageURL):
                         print("Successfully fetched profile image URL: \(profileImageURL)")
-//                        self.profileImageService.avatarURL = profileImageURL
                         self.profileImageService.setAvatarURL(profileImageURL)
                         
                         NotificationCenter.default.post(
@@ -157,8 +137,6 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure(let error):
                 DispatchQueue.main.async {
                     print("Error fetching profile: \(error)")
-                    // TODO: Показать ошибку загрузки профиля
-                    
                     print("Showing alert on profile screen...")
                     self.showFetchErrorAlert()
                     UIBlockingProgressHUD.dismiss()

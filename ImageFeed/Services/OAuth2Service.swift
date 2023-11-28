@@ -86,10 +86,3 @@ extension URLRequest {
         return request
     }
 }
-    // MARK: - Network Connection
-
-//enum NetworkError: Error {
-//    case httpStatusCode(Int)
-//    case urlRequestError(Error)
-//    case urlSessionError
-//}

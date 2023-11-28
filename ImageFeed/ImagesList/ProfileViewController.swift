@@ -157,22 +157,4 @@ final class ProfileViewController: UIViewController {
                                            placeholder: UIImage(named: "tab_profile_active"),
                                            options: [.processor(processor)])
     }
-    
-//
-//        ProfileService().fetchProfile(token) { [weak self] result in
-//            switch result {
-//            case .success(let profileResult):
-//                // Обновляем метки на основе данных профиля
-//                DispatchQueue.main.async {
-//                    self?.userName.text = "\(profileResult.firstName) \(profileResult.lastName)"
-//                    self?.userLogin.text = "@\(profileResult.userLogin)"
-//                    self?.userDescription.text = profileResult.bio ?? ""
-//                }
-//            case .failure(let error):
-//                print("Failed to fetch profile: \(error)")
-//
-//            }
-//        }
-//    }
-    
 }
