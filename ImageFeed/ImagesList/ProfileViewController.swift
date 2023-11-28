@@ -7,16 +7,21 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
-    // MARK: - Private Constants
+    // MARK: - Constants & Properties
     
     private let profileImage = UIImageView()
     private let logOutButton = UIButton()
     private let userName = UILabel()
     private let userLogin = UILabel()
     private let userDescription = UILabel()
+    
+    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - Lifecycle
     
@@ -29,6 +34,21 @@ final class ProfileViewController: UIViewController {
         creationOfUserName()
         creationOfUserLogin()
         creationOfUserDescription()
+        
+        if let profile = profileService.profile {
+            updateProfileDetails(profile: profile)
+        }
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.DidChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
     }
     
     // MARK: - Private Methods
@@ -69,7 +89,7 @@ final class ProfileViewController: UIViewController {
 
     private func creationOfUserName() {
 
-        userName.text = "Екатерина Новикова"
+        userName.text = "Name Surname"
         userName.font = UIFont(name: "SF Pro", size: 23)
         userName.font = UIFont.boldSystemFont(ofSize: 23)
         userName.textColor = .ypWhite
@@ -86,7 +106,7 @@ final class ProfileViewController: UIViewController {
 
     private func creationOfUserLogin() {
 
-        userLogin.text = "@ekaterina_nov"
+        userLogin.text = "@test"
         userLogin.font = UIFont(name: "SF Pro", size: 13)
         userLogin.textColor = .ypGray
         
@@ -102,7 +122,7 @@ final class ProfileViewController: UIViewController {
     
     private func creationOfUserDescription() {
 
-        userDescription.text = "Hello, world!"
+        userDescription.text = "test"
         userDescription.font = UIFont(name: "SF Pro", size: 13)
         userDescription.textColor = .ypWhite
         
@@ -114,5 +134,27 @@ final class ProfileViewController: UIViewController {
             userDescription.topAnchor.constraint(equalTo: userLogin.bottomAnchor, constant: 8),
             userDescription.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
         ])
+    }
+    
+    func updateProfileDetails(profile: ProfileData) {
+        DispatchQueue.main.async { [weak self] in
+            self?.userLogin.text = profile.userLogin
+            self?.userName.text = profile.userName
+            self?.userDescription.text = profile.userDescription
+        }
+        print("Updating UI with profile data")
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+                // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+        let processor = RoundCornerImageProcessor(cornerRadius: 70/2, backgroundColor: .ypBlack)
+                  profileImage.kf.indicatorType = .activity
+                  profileImage.kf.setImage(with: url,
+                                           placeholder: UIImage(named: "tab_profile_active"),
+                                           options: [.processor(processor)])
     }
 }
