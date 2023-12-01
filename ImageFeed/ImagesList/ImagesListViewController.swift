@@ -24,6 +24,7 @@ final class ImagesListViewController: UIViewController {
     }()
     
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
+    private let imagesListService = ImagesListService.shared
     
     // MARK: - Lifecycle
     
@@ -113,5 +114,14 @@ extension ImagesListViewController: UITableViewDelegate {
         let scale = imageViewWidth / imageWidth
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight
+    }
+}
+
+extension ImagesListViewController {
+    func tableView(_ tableView: UITableView,
+                   willDisplay cell: UITableViewCell,
+                   forRowAt indexPath: IndexPath) {
+        //TODO
+        imagesListService.fetchPhotosNextPage()
     }
 }
