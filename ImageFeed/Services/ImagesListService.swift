@@ -34,11 +34,11 @@ class ImagesListService {
         
         var components = URLComponents(url: photosURL, resolvingAgainstBaseURL: true)
         components?.queryItems = [
-            "page": "\(nextPage)",
-            "per_page": "10",
-            "order_by": "latest",
-            "client_id": AccessKey
-        ].compactMap { URLQueryItem(name: $0.key, value: $0.value) }
+            URLQueryItem(name: "page", value: "\(nextPage)"),
+            URLQueryItem(name: "per_page", value: "10"),
+            URLQueryItem(name: "order_by", value: "latest"),
+            URLQueryItem(name: "client_id", value: AccessKey)
+        ]
         
         guard let url = components?.url else { return}
         
@@ -51,6 +51,9 @@ class ImagesListService {
             
             switch result {
             case .success(let photoResults):
+                
+                print("Received photo results: \(photoResults)")
+
                 let newPhotos = photoResults.map { Photo(photoResult: $0) }
                 DispatchQueue.main.async {
                     self.photos.append(contentsOf: newPhotos)

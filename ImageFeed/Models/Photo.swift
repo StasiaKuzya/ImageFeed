@@ -22,7 +22,13 @@ extension Photo {
     init(photoResult: PhotoResult) {
         id = photoResult.id
         size = CGSize(width: photoResult.width, height: photoResult.height)
-        createdAt = photoResult.createdAt
+        
+        if let createdAtString = photoResult.createdAt {
+            createdAt = dateFormatter.date(from: createdAtString)
+        } else {
+            createdAt = nil
+        }
+
         welcomeDescription = photoResult.description
         thumbImageURL = photoResult.urls.thumb
         largeImageURL = photoResult.urls.full
