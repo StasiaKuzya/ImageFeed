@@ -154,7 +154,7 @@ final class ProfileViewController: UIViewController {
         let processor = RoundCornerImageProcessor(cornerRadius: 70/2, backgroundColor: .ypBlack)
                   profileImage.kf.indicatorType = .activity
                   profileImage.kf.setImage(with: url,
-                                           placeholder: UIImage(named: "tab_profile_active"),
+                                           placeholder: UIImage(named: "UserPickHolder"),
                                            options: [.processor(processor)])
     }
 }

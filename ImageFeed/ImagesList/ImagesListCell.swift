@@ -32,5 +32,10 @@ final class ImagesListCell: UITableViewCell {
         // Добавляем градиентный слой как фон для gradientView
         gradientView.layer.insertSublayer(gradientLayer, at: 0)
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        pictureImageView.kf.cancelDownloadTask()
+    }
+    
 }
-
