@@ -8,8 +8,13 @@
 import Foundation
 import UIKit
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imageListCellDidTapLike(_ cell: ImagesListCell)
+}
+
 final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCell"
+    weak var delegate: ImagesListCellDelegate?
     
     @IBOutlet weak var pictureImageView: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
@@ -38,4 +43,13 @@ final class ImagesListCell: UITableViewCell {
         pictureImageView.kf.cancelDownloadTask()
     }
     
+    func setIsLiked(_ state: Bool) {
+        let imageName = state ? "Active" : "No Active"
+        let image = UIImage(named: imageName)
+        likeButton.setImage(image, for: .normal)
+    }
+                                       
+    @IBAction private func didTapLikeButton(_ sender: Any?) {
+        delegate?.imageListCellDidTapLike(self)
+    }
 }

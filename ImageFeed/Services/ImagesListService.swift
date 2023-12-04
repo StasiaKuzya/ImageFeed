@@ -5,75 +5,6 @@
 //  Created by Анастасия on 30.11.2023.
 //
 
-//import Foundation
-//
-//class ImagesListService {
-//    static let DidChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
-//    static let shared = ImagesListService()
-//    private (set) var photos: [Photo] = []
-//
-//    private(set) var lastLoadedPage: Int?
-//    private(set) var isFetching = false
-////    private var nextPage = 1
-//
-//    private init() {}
-//
-//    func fetchPhotosNextPage() {
-//
-////        var nextPage: Int
-////        if let lastLoadedPage = lastLoadedPage {
-////            nextPage = lastLoadedPage + 1
-////        } else { nextPage = 1 }
-//
-//        guard !isFetching else { return }
-//
-//        isFetching = true
-//
-//        let baseURL = URL(string: "\(DefaultBaseURL)")!
-//        let photosURL = baseURL.appendingPathComponent("photos")
-//
-//        var components = URLComponents(url: photosURL, resolvingAgainstBaseURL: true)
-//        components?.queryItems = [
-//            URLQueryItem(name: "page", value: "\(lastLoadedPage ?? 1)"),
-//            URLQueryItem(name: "per_page", value: "10"),
-//            URLQueryItem(name: "order_by", value: "latest"),
-//            URLQueryItem(name: "client_id", value: AccessKey)
-//        ]
-//
-//        guard let url = components?.url else {
-////            isFetching = false
-//            return}
-//
-//        let request = URLRequest(url: url)
-//
-//        let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
-//            guard let self = self else { return }
-//
-//            defer { self.isFetching = false }
-//
-//            switch result {
-//            case .success(let photoResults):
-//
-////                print("Received photo results: \(photoResults)")
-//
-//                let newPhotos = photoResults.map { Photo(photoResult: $0) }
-//                DispatchQueue.main.async {
-//                    self.photos.append(contentsOf: newPhotos)
-//                    // Увеличиваем номер следующей страницы для закачки.
-////                    nextPage += 1
-//                    self.lastLoadedPage = (self.lastLoadedPage ?? 1) + 1
-//
-//                    // Публикуем нотификацию об изменении данных.
-//                    NotificationCenter.default.post(name: Self.DidChangeNotification, object: nil)
-//                }
-//            case .failure(let error):
-//                // Обработка ошибки.
-//                print("Error fetching photos: \(error)")
-//            }
-//        }
-//        task.resume()
-//    }
-//}
 import Foundation
 
 class ImagesListService {
@@ -84,7 +15,7 @@ class ImagesListService {
     private(set) var lastLoadedPage: Int?
     private(set) var isFetching = false
     private var task: URLSessionTask?
-
+    
     private init() {}
     
     func fetchPhotosNextPage() {
@@ -135,5 +66,55 @@ class ImagesListService {
             }
         }
         task?.resume()
+    }
+}
+ 
+    // MARK: - POST & DELETE likes
+    
+extension ImagesListService {
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        let baseURL = URL(string: "\(DefaultBaseURL)")!
+        let likeURL = baseURL.appendingPathComponent("photos/\(photoId)/like")
+        
+        var request = URLRequest(url: likeURL)
+        request.httpMethod = isLike ? "POST" : "DELETE"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                completion(.failure(error!))
+                return
+            }
+
+            DispatchQueue.main.async {
+                if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                    let photo = self.photos[index]
+//                    updatedPhoto.isLiked = isLike
+//                    self.photos[index] = updatedPhoto
+                    let newPhoto = Photo(
+                             id: photo.id,
+                             size: photo.size,
+                             createdAt: photo.createdAt,
+                             welcomeDescription: photo.welcomeDescription,
+                             thumbImageURL: photo.thumbImageURL,
+                             largeImageURL: photo.largeImageURL,
+                             isLiked: !photo.isLiked
+                         )
+                    self.photos = self.photos.withReplaced(itemAt: index, newValue: newPhoto)
+                    completion(.success(()))
+                    NotificationCenter.default.post(name: Self.DidChangeNotification, object: nil)
+                } else {
+                    completion(.failure(NSError(domain: "ImagesListService", code: 404, userInfo: nil)))
+                }
+            }
+        }
+        task.resume()
+    }
+}
+
+extension Array {
+    func withReplaced(itemAt index: Index, newValue: Element) -> Array {
+        var newArray = self
+        newArray[index] = newValue
+        return newArray
     }
 }

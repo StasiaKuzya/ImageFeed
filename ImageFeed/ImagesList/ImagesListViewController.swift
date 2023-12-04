@@ -94,13 +94,13 @@ final class ImagesListViewController: UIViewController {
         let dataString = dateFormatter.string( from: currentDate)
         cell.dateLabel.text = dataString
         
-        let index = indexPath.row
-        let isEvenIndex = index % 2 == 0
-        if isEvenIndex {
-            cell.likeButton.setImage(UIImage(named: "Active"), for: .normal)
-        } else {
-            cell.likeButton.setImage(UIImage(named: "No Active"), for: .normal)
-        }
+//        let index = indexPath.row
+//        let isEvenIndex = index % 2 == 0
+//        if isEvenIndex {
+//            cell.likeButton.setImage(UIImage(named: "Active"), for: .normal)
+//        } else {
+//            cell.likeButton.setImage(UIImage(named: "No Active"), for: .normal)
+//        }
     }
 }
 
@@ -133,10 +133,13 @@ extension ImagesListViewController: UITableViewDataSource {
             completionHandler: { result in
                 switch result {
                 case .success(_):
-                    // Здесь можно выполнить дополнительные действия после успешной загрузки изображения
-                    print("download \(photo.thumbImageURL), \(photo.createdAt), \(photo.isLiked)")
-//                    tableView.reloadRows(at: [indexPath], with: .automatic)
-
+                    tableView.reloadRows(at: [indexPath], with: .automatic)
+                    let likeStateImageName = photo.isLiked ? "Active" : "No Active"
+                                        imageListCell.likeButton.setImage(UIImage(named: likeStateImageName), for: .normal)
+                
+                    
+                    imageListCell.delegate = self
+                    
                 case .failure(let error):
                     // Обработка ошибки загрузки изображения
                     print("Error loading image for indexPath: \(indexPath), error: \(error)")
@@ -220,5 +223,38 @@ extension ImagesListViewController {
                 self.imagesListService.fetchPhotosNextPage()
             }
         }
+    }
+}
+
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+        // Покажем лоадер
+        UIBlockingProgressHUD.show()
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { result in
+            switch result {
+            case .success:
+                    // Синхронизируем массив картинок с сервисом
+                    self.photos = self.imagesListService.photos
+                    // Изменим индикацию лайка картинки
+                    cell.setIsLiked(self.photos[indexPath.row].isLiked)
+                    print("tap done \(self.photos[indexPath.row].isLiked)")
+                    UIBlockingProgressHUD.dismiss()
+            case .failure:
+                    self.showLikeErrorAlert()
+                    UIBlockingProgressHUD.dismiss()
+            }
+        }
+    }
+    
+    private func showLikeErrorAlert() {
+        let alertModel = AlertModel(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему",
+            buttonText: "ОК",
+            completion: nil
+        )
+        AlertPresenter.showAlert(alertModel: alertModel, delegate: self)
     }
 }

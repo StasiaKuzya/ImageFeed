@@ -46,6 +46,9 @@
                                                     </constraints>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="Active"/>
+                                                    <connections>
+                                                        <action selector="didTapLikeButton:" destination="p9E-jS-K9X" eventType="touchUpInside" id="euy-AL-5vd"/>
+                                                    </connections>
                                                 </button>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="12M-5c-7ow">
                                                     <rect key="frame" x="16" y="192" width="382" height="28"/>
