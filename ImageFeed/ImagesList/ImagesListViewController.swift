@@ -52,8 +52,8 @@ final class ImagesListViewController: UIViewController {
             }
 //        updateTableViewAnimated()
   
-        print("Photos2 \(imagesListService.photos.count)")
-        print("Last loaded page \(String(describing: imagesListService.lastLoadedPage))")
+//        print("Photos2 \(imagesListService.photos.count)")
+//        print("Last loaded page \(String(describing: imagesListService.lastLoadedPage))")
 
     }
     
@@ -75,7 +75,7 @@ final class ImagesListViewController: UIViewController {
 //            let viewController = segue.destination as! SingleImageViewController
 //            let indexPath = sender as! IndexPath
 //            let photo = photos[indexPath.row]
-//            viewController.image = photo
+//            viewController.image = UIImage(named: photo.thumbImageURL)
 //        } else {
 //            super.prepare(for: segue, sender: sender)
 //        }
@@ -86,9 +86,9 @@ final class ImagesListViewController: UIViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         let imageName = "\(indexPath.row)"
         
-        if let image = UIImage(named: imageName) {
-            cell.pictureImageView.image = image
-        } else { return }
+//        if let image = UIImage(named: imageName) {
+//            cell.pictureImageView.image = image
+//        } else { return }
         
         let currentDate = Date()
         let dataString = dateFormatter.string( from: currentDate)
@@ -128,7 +128,20 @@ extension ImagesListViewController: UITableViewDataSource {
         imageListCell.pictureImageView.kf.indicatorType = .activity
         imageListCell.pictureImageView.kf.setImage(
             with: URL(string: photo.thumbImageURL),
-            placeholder: UIImage(named: "place_holder")
+            placeholder: UIImage(named: "place_holder"),
+            options: nil,
+            completionHandler: { result in
+                switch result {
+                case .success(_):
+                    // Здесь можно выполнить дополнительные действия после успешной загрузки изображения
+                    print("download \(photo.thumbImageURL), \(photo.createdAt), \(photo.isLiked)")
+//                    tableView.reloadRows(at: [indexPath], with: .automatic)
+
+                case .failure(let error):
+                    // Обработка ошибки загрузки изображения
+                    print("Error loading image for indexPath: \(indexPath), error: \(error)")
+                }
+            }
 //                        completionHandler: { result in
 //                            switch result {
 //                            case .success(_):
@@ -142,6 +155,7 @@ extension ImagesListViewController: UITableViewDataSource {
 //                            }
 //                        }
         )
+        
         print("download1 \(photo.thumbImageURL)")
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
@@ -185,29 +199,6 @@ extension ImagesListViewController {
             }
         }
     }
-    
-//    func updateTableViewAnimated() {
-//
-//        let oldCount = photos.count
-//        let newCount = imagesListService.photos.count
-//        photos = imagesListService.photos
-//
-//        print("Old count: \(oldCount), New count: \(newCount)")
-//
-//        if oldCount < newCount {
-//            tableView.performBatchUpdates {
-//                let indexPaths = (oldCount..<newCount).map { i in
-//                    IndexPath(row: i, section: 0)
-//                }
-//                tableView.insertRows(at: indexPaths, with: .automatic)
-//            }
-//        }
-//        else {
-//            DispatchQueue.main.async {
-//                self.imagesListService.fetchPhotosNextPage()
-//            }
-//        }
-//    }
 
     func updateTableViewAnimated() {
         DispatchQueue.main.async {
