@@ -27,7 +27,6 @@ final class ImagesListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
         tableView.backgroundColor = UIColor.ypBlack
         
@@ -50,7 +49,6 @@ final class ImagesListViewController: UIViewController {
                 print("Photos1 \(imagesListService.photos.count)")
                 self.updateTableViewAnimated()
             }
-//        updateTableViewAnimated()
   
 //        print("Photos2 \(imagesListService.photos.count)")
 //        print("Last loaded page \(String(describing: imagesListService.lastLoadedPage))")
@@ -70,38 +68,19 @@ final class ImagesListViewController: UIViewController {
 //        }
 //    }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == ShowSingleImageSegueIdentifier {
-//            let viewController = segue.destination as! SingleImageViewController
-//            let indexPath = sender as! IndexPath
-//            let photo = photos[indexPath.row]
-//            viewController.image = UIImage(named: photo.thumbImageURL)
-//        } else {
-//            super.prepare(for: segue, sender: sender)
-//        }
-//    }
-
-    // MARK: - Methods
-
-    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        let imageName = "\(indexPath.row)"
-        
-//        if let image = UIImage(named: imageName) {
-//            cell.pictureImageView.image = image
-//        } else { return }
-        
-        let currentDate = Date()
-        let dataString = dateFormatter.string( from: currentDate)
-        cell.dateLabel.text = dataString
-        
-//        let index = indexPath.row
-//        let isEvenIndex = index % 2 == 0
-//        if isEvenIndex {
-//            cell.likeButton.setImage(UIImage(named: "Active"), for: .normal)
-//        } else {
-//            cell.likeButton.setImage(UIImage(named: "No Active"), for: .normal)
-//        }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == ShowSingleImageSegueIdentifier {
+            let viewController = segue.destination as! SingleImageViewController
+            let indexPath = sender as! IndexPath
+            let photo = photos[indexPath.row]
+            let imageURL = URL(string: photo.largeImageURL)
+            viewController.imageURL = imageURL
+            
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
     }
+
 }
 
     // MARK: - UITableViewDataSource
@@ -110,8 +89,8 @@ extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return 10
-        print("tableView count \(photos.count)")
-        print("tableView count1 \(photos)")
+//        print("tableView count \(photos.count)")
+//        print("tableView count1 \(photos)")
         return photos.count
     }
     
@@ -124,7 +103,7 @@ extension ImagesListViewController: UITableViewDataSource {
 
         let photo = photos[indexPath.row]
 
-        print("print \(photos[indexPath.row])")
+//        print("print \(photos[indexPath.row])")
         imageListCell.pictureImageView.kf.indicatorType = .activity
         imageListCell.pictureImageView.kf.setImage(
             with: URL(string: photo.thumbImageURL),
@@ -134,34 +113,38 @@ extension ImagesListViewController: UITableViewDataSource {
                 switch result {
                 case .success(_):
                     tableView.reloadRows(at: [indexPath], with: .automatic)
-                    let likeStateImageName = photo.isLiked ? "Active" : "No Active"
-                                        imageListCell.likeButton.setImage(UIImage(named: likeStateImageName), for: .normal)
-                
-                    
-                    imageListCell.delegate = self
                     
                 case .failure(let error):
-                    // Обработка ошибки загрузки изображения
                     print("Error loading image for indexPath: \(indexPath), error: \(error)")
                 }
             }
-//                        completionHandler: { result in
-//                            switch result {
-//                            case .success(_):
-//                                DispatchQueue.main.async {
-//                                    print("download \(photo.thumbImageURL)")
-//                                    tableView.reloadRows(at: [indexPath], with: .automatic)
-//                                    }
-//
-//                            case .failure(_):
-//                                print("Error loading image for indexPath: \(indexPath)")
-//                            }
-//                        }
         )
         
-        print("download1 \(photo.thumbImageURL)")
+//        print("download1 \(photo.thumbImageURL)")
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
+    }
+
+    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+        
+        cell.delegate = self
+        
+        let photo = photos[indexPath.row]
+        
+        let likeStateImageName = photo.isLiked ? "Active" : "No Active"
+        cell.likeButton.setImage(UIImage(named: likeStateImageName), for: .normal)
+        
+        let dateString = photo.createdAt
+        
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        if let date = inputFormatter.date(from: dateString) {
+            let resultString = dateFormatter.string(from: date)
+            cell.dateLabel.text = resultString
+        } else {
+            cell.dateLabel.text = photo.createdAt
+        }
     }
 }
 
@@ -186,6 +169,8 @@ extension ImagesListViewController: UITableViewDelegate {
         return cellHeight
     }
 }
+
+// MARK: - ImagesListService - fetchPhotosNextPage
 
 extension ImagesListViewController {
     func tableView(_ tableView: UITableView,
@@ -226,6 +211,8 @@ extension ImagesListViewController {
     }
 }
 
+// MARK: - ImagesListCellDelegate
+
 extension ImagesListViewController: ImagesListCellDelegate {
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
@@ -251,10 +238,14 @@ extension ImagesListViewController: ImagesListCellDelegate {
     private func showLikeErrorAlert() {
         let alertModel = AlertModel(
             title: "Что-то пошло не так",
-            message: "Не удалось войти в систему",
-            buttonText: "ОК",
-            completion: nil
+            message: "Не удалось поставить лайк",
+            primaryButton: AlertButton(
+                buttonText: "ОК",
+                completion: nil
+            ),
+            additionalButtons: nil
         )
+        
         AlertPresenter.showAlert(alertModel: alertModel, delegate: self)
     }
 }

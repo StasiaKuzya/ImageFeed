@@ -16,10 +16,22 @@ final class AlertPresenter {
         
         alert.view.accessibilityIdentifier = "Alert"
         
-        let action = UIAlertAction(title: alertModel.buttonText, style: .default) { _ in
-            alertModel.completion?()
+        // Добавление основной кнопки
+        let primaryAction = UIAlertAction(title: alertModel.primaryButton.buttonText, style: .default) { _ in
+            alertModel.primaryButton.completion?()
         }
-        alert.addAction(action)
+        alert.addAction(primaryAction)
+        
+        // Добавление дополнительных кнопок, если они есть
+        if let additionalButtons = alertModel.additionalButtons {
+            for button in additionalButtons {
+                let additionalAction = UIAlertAction(title: button.buttonText, style: .default) { _ in
+                    button.completion?()
+                }
+                alert.addAction(additionalAction)
+            }
+        }
+        
         delegate.present(alert, animated: true, completion: nil)
     }
 }

@@ -149,16 +149,19 @@ extension SplashViewController: AuthViewControllerDelegate {
         let alertModel = AlertModel(
             title: "Что-то пошло не так",
             message: "Не удалось войти в систему",
-            buttonText: "ОК",
-            completion: { [weak self] in
-                // По закрытии алерта, проверяем наличие токена
-                guard let self = self, let token = OAuth2TokenStorage().token else {
-                    return
+            primaryButton: AlertButton(
+                buttonText: "ОК",
+                completion: { [weak self] in
+                    // По закрытии алерта, проверяем наличие токена
+                    guard let self = self, let token = OAuth2TokenStorage().token else {
+                        return
+                    }
+                    // Если токен есть, тогда переходим к TabBarController
+                    self.fetchProfile(token: token)
+                    self.switchToTabBarController()
                 }
-                // Если токен есть, тогда переходим к TabBarController
-                self.fetchProfile(token: token)
-                self.switchToTabBarController()
-            }
+            ),
+            additionalButtons: nil
         )
         AlertPresenter.showAlert(alertModel: alertModel, delegate: self)
     }

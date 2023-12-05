@@ -10,7 +10,7 @@ import Foundation
 struct Photo {
     let id: String
     let size: CGSize
-    let createdAt: Date?
+    let createdAt: String
     var welcomeDescription: String?
     let thumbImageURL: String
     let largeImageURL: String
@@ -22,13 +22,7 @@ extension Photo {
     init(photoResult: PhotoResult) {
         id = photoResult.id
         size = CGSize(width: photoResult.width, height: photoResult.height)
-        
-        if let createdAtString = photoResult.createdAt {
-            createdAt = dateFormatter.date(from: createdAtString)
-        } else {
-            createdAt = nil
-        }
-
+        createdAt = photoResult.createdAt
         welcomeDescription = photoResult.description
         thumbImageURL = photoResult.urls.thumb
         largeImageURL = photoResult.urls.full
