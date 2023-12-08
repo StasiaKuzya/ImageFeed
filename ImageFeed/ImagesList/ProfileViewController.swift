@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 import Kingfisher
+import SwiftKeychainWrapper
+import WebKit
 
 final class ProfileViewController: UIViewController {
     
@@ -22,6 +24,7 @@ final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    private let oauth2TokenStorage = OAuth2TokenStorage()
     
     // MARK: - Lifecycle
     
@@ -54,7 +57,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Private Methods
     
     private func creationOfProfileImage() {
-
+        
         let imageForProfile = UIImage(named: "UserPic")
         profileImage.image = imageForProfile
         profileImage.layer.cornerRadius = 70 / 2
@@ -72,13 +75,14 @@ final class ProfileViewController: UIViewController {
     }
     
     private func creationOfLogOutButton() {
-
+        
         logOutButton.setImage(UIImage(named: "Exit"), for: .normal)
-
+        logOutButton.addTarget(self, action: #selector(logOutButtonTapped), for: .touchUpInside)
+        
         view.addSubview(logOutButton)
         
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
             logOutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             logOutButton.heightAnchor.constraint(equalToConstant: 44),
@@ -86,9 +90,9 @@ final class ProfileViewController: UIViewController {
             logOutButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor)
         ])
     }
-
+    
     private func creationOfUserName() {
-
+        
         userName.text = "Name Surname"
         userName.font = UIFont(name: "SF Pro", size: 23)
         userName.font = UIFont.boldSystemFont(ofSize: 23)
@@ -103,9 +107,9 @@ final class ProfileViewController: UIViewController {
             userName.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
         ])
     }
-
+    
     private func creationOfUserLogin() {
-
+        
         userLogin.text = "@test"
         userLogin.font = UIFont(name: "SF Pro", size: 13)
         userLogin.textColor = .ypGray
@@ -121,7 +125,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func creationOfUserDescription() {
-
+        
         userDescription.text = "test"
         userDescription.font = UIFont(name: "SF Pro", size: 13)
         userDescription.textColor = .ypWhite
@@ -150,11 +154,55 @@ final class ProfileViewController: UIViewController {
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
-                // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
         let processor = RoundCornerImageProcessor(cornerRadius: 70/2, backgroundColor: .ypBlack)
-                  profileImage.kf.indicatorType = .activity
-                  profileImage.kf.setImage(with: url,
-                                           placeholder: UIImage(named: "UserPickHolder"),
-                                           options: [.processor(processor)])
+        profileImage.kf.indicatorType = .activity
+        profileImage.kf.setImage(with: url,
+                                 placeholder: UIImage(named: "UserPickHolder"),
+                                 options: [.processor(processor)])
+    }
+    
+    @objc private func logOutButtonTapped() {
+        let alertModel = AlertModel(
+            title: "Пока, пока!",
+            message: "Уверены что хотите выйти",
+            primaryButton: AlertButton(
+                buttonText: "Да",
+                completion: {[weak self] in
+                    self?.logOut()
+                }
+            ),
+            additionalButtons: [AlertButton(
+                buttonText: "Нет",
+                completion: nil
+            )]
+        )
+        
+        AlertPresenter.showAlert(alertModel: alertModel, delegate: self)
+    }
+    
+    private func logOut() {
+        // Очистите куки (пример для WKWebView)
+        clean()
+        
+        // Очистите данные пользователя (удаляем токен)
+        KeychainWrapper.standard.removeObject(forKey: "BearerToken")
+        
+        // Переход на SplashViewController после выхода
+        let splashViewController = SplashViewController()
+        splashViewController.modalPresentationStyle = .fullScreen
+        present(splashViewController, animated: true)
+    }
+    
+    private func clean() {
+        // Очищаем все куки из хранилища.
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        // Запрашиваем все данные из локального хранилища.
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            // Массив полученных записей удаляем из хранилища.
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            }
+        }
     }
 }
