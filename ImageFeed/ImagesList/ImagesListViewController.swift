@@ -36,37 +36,10 @@ final class ImagesListViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         
         imagesListService.fetchPhotosNextPage()
-        
-        imagelistServiceObserver =
-        NotificationCenter.default
-            .addObserver(
-                forName: ImagesListService.DidChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                print("Received DidChangeNotification")
-                print("Photos1 \(imagesListService.photos.count)")
-                self.updateTableViewAnimated()
-            }
-  
-//        print("Photos2 \(imagesListService.photos.count)")
-//        print("Last loaded page \(String(describing: imagesListService.lastLoadedPage))")
-
+        notifImagelistServiceObserver()
     }
     
     // MARK: - Override Methods
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == ShowSingleImageSegueIdentifier {
-//            let viewController = segue.destination as! SingleImageViewController
-//            let indexPath = sender as! IndexPath
-//            let image = UIImage(named: photosName[indexPath.row])
-//            viewController.image = image
-//        } else {
-//            super.prepare(for: segue, sender: sender)
-//        }
-//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowSingleImageSegueIdentifier {
@@ -80,7 +53,6 @@ final class ImagesListViewController: UIViewController {
             super.prepare(for: segue, sender: sender)
         }
     }
-
 }
 
     // MARK: - UITableViewDataSource
@@ -88,9 +60,6 @@ final class ImagesListViewController: UIViewController {
 extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 10
-//        print("tableView count \(photos.count)")
-//        print("tableView count1 \(photos)")
         return photos.count
     }
     
@@ -120,7 +89,6 @@ extension ImagesListViewController: UITableViewDataSource {
             }
         )
         
-//        print("download1 \(photo.thumbImageURL)")
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
@@ -208,6 +176,21 @@ extension ImagesListViewController {
                 self.imagesListService.fetchPhotosNextPage()
             }
         }
+    }
+    
+    private func notifImagelistServiceObserver() {
+        imagelistServiceObserver =
+        NotificationCenter.default
+            .addObserver(
+                forName: ImagesListService.DidChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                print("Received DidChangeNotification")
+                print("Photos1 \(imagesListService.photos.count)")
+                self.updateTableViewAnimated()
+            }
     }
 }
 
