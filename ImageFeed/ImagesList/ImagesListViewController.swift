@@ -23,6 +23,12 @@ final class ImagesListViewController: UIViewController {
     private var photos: [Photo] = []
     private var imagelistServiceObserver: NSObjectProtocol?
     
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM yyyy"
+        return formatter
+    }()
+    
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -101,17 +107,11 @@ extension ImagesListViewController: UITableViewDataSource {
         
         let likeStateImageName = photo.isLiked ? "Active" : "No Active"
         cell.likeButton.setImage(UIImage(named: likeStateImageName), for: .normal)
-        
-        let dateString = photo.createdAt
-        
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        
-        if let date = inputFormatter.date(from: dateString) {
-            let resultString = dateFormatter.string(from: date)
-            cell.dateLabel.text = resultString
+
+        if let createdAt = photo.createdAt {
+            cell.dateLabel.text = dateFormatter.string(from: createdAt)
         } else {
-            cell.dateLabel.text = photo.createdAt
+            cell.dateLabel.text = ""
         }
     }
 }

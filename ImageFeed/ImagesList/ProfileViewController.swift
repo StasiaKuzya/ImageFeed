@@ -189,9 +189,15 @@ final class ProfileViewController: UIViewController {
         KeychainWrapper.standard.removeObject(forKey: "BearerToken")
         
         // Переход на SplashViewController после выхода
+        switchToSplashViewController()
+    }
+    
+    private func switchToSplashViewController() {
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let splashViewController = SplashViewController()
-        splashViewController.modalPresentationStyle = .fullScreen
-        present(splashViewController, animated: true)
+        window.rootViewController = splashViewController
+        
+        print("Switched to SplashViewController")
     }
     
     private func clean() {

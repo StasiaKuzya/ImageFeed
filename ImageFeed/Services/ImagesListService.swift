@@ -88,8 +88,6 @@ extension ImagesListService {
             DispatchQueue.main.async {
                 if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
                     let photo = self.photos[index]
-//                    updatedPhoto.isLiked = isLike
-//                    self.photos[index] = updatedPhoto
                     let newPhoto = Photo(
                              id: photo.id,
                              size: photo.size,
