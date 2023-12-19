@@ -19,7 +19,11 @@ import SwiftKeychainWrapper
 //    }
 //}
 
-class OAuth2TokenStorage {
+protocol OAuth2TokenStorageProtocol {
+    var token: String? { get set }
+}
+
+class OAuth2TokenStorage: OAuth2TokenStorageProtocol {
     var token: String? {
         get {
             return KeychainWrapper.standard.string(forKey: "BearerToken")
