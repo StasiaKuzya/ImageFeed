@@ -13,6 +13,8 @@ import WebKit
 
 protocol ProfilePresenterProtocol {
     var view: ProfileViewControllerProtocol? { get set }
+    var profileImageService: ProfileImageServiceProtocol? { get set }
+    var tokenStorage: OAuth2TokenStorageProtocol? { get set }
     func viewDidLoad()
     func logOutButtonTapped()
     func updateAvatar()
@@ -21,7 +23,8 @@ protocol ProfilePresenterProtocol {
 class ProfilePresenter: ProfilePresenterProtocol {
     weak var view: ProfileViewControllerProtocol?
     private var profileImageServiceObserver: NSObjectProtocol?
-    private let profileImageService = ProfileImageService.shared
+    var profileImageService: ProfileImageServiceProtocol? = ProfileImageService.shared
+    var tokenStorage: OAuth2TokenStorageProtocol?
     
     init(view: ProfileViewControllerProtocol? = nil) {
         self.view = view
@@ -43,8 +46,7 @@ class ProfilePresenter: ProfilePresenterProtocol {
     }
     
     func updateAvatar() {
-//        guard let profileImageURL = ProfileImageService.shared.avatarURL,
-        guard let profileImageURL = profileImageService.avatarURL,
+        guard let profileImageURL = profileImageService?.avatarURL,
               let url = URL(string: profileImageURL) else {
             return
         }

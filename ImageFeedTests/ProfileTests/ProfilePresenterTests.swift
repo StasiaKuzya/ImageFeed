@@ -8,26 +8,6 @@
 import XCTest
 import Foundation
 @testable import ImageFeed
-import Foundation
-import ImageFeed
-
-final class ProfilePresenterSpy: ProfilePresenterProtocol {
-    var view: ProfileViewControllerProtocol?
-    var tokenStorage: OAuth2TokenStorageProtocol?
-    private(set) var viewDidLoadCalled = false
-    private(set) var logOutButtonTappedCalled = false
-    
-    func viewDidLoad() {
-        viewDidLoadCalled = true
-    }
-    
-    func logOutButtonTapped() {
-        tokenStorage?.token = nil
-    }
-    
-    func updateAvatar() {
-    }
-}
 
 final class ProfilePresenterTests: XCTestCase {
 
@@ -47,18 +27,32 @@ final class ProfilePresenterTests: XCTestCase {
     
     func testCleanTokenStorage() {
         // Given
+        let viewController = ProfileViewControllerSpy()
+        let presenter = ProfilePresenter()
+        viewController.presenter = presenter
+        presenter.view = viewController
+        let tokenStorageMock = MockOAuth2TokenStorage()
+        presenter.tokenStorage?.token = tokenStorageMock.token
+
+        // When
+        tokenStorageMock.token = "smtg"
+        viewController.logOut()
+
+        // Then
+        XCTAssertNil(presenter.tokenStorage?.token)
+    }
+    
+    func testLogOutCalled() {
+        // Given
         let viewController = ProfileViewController()
         let presenter = ProfilePresenterSpy()
         viewController.presenter = presenter
         presenter.view = viewController
-        let tokenStorageMock = MockOAuth2TokenStorage()
-        presenter.tokenStorage = tokenStorageMock
-
+        
         // When
-        tokenStorageMock.token = "smtg"
-        presenter.logOutButtonTapped()
+        viewController.logOut()
 
         // Then
-        XCTAssertNil(tokenStorageMock.token)
+        XCTAssertTrue(presenter.logOutButtonTappedCalled)
     }
 }

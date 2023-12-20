@@ -8,28 +8,7 @@
 import Foundation
 import XCTest
 @testable import ImageFeed
-import Foundation
-import ImageFeed
 import Kingfisher
-
-final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
-    var presenter: ProfilePresenterProtocol?
-    private(set) var updateProfileDetailsCalled = false
-    private(set) var updateAvatarCalled = false
-    private(set) var switchToSplashViewControllerCalled = false
-    
-    func updateProfileDetails(profile: ProfileData) {
-        updateProfileDetailsCalled = true
-    }
-    
-    func updateAvatar(with url: URL, placeholder: UIImage?, options: KingfisherOptionsInfo?) {
-        updateAvatarCalled = true
-    }
-    
-    func switchToSplashViewController() {
-        switchToSplashViewControllerCalled = true
-    }
-}
 
 final class ProfileViewControllerTests: XCTestCase {
     
@@ -61,5 +40,23 @@ final class ProfileViewControllerTests: XCTestCase {
         //Then
         XCTAssertTrue(viewController.switchToSplashViewControllerCalled)
     }
-
+    
+    func testUpdateAvatar() {
+        //Given
+        let viewController = ProfileViewControllerSpy()
+        let presenter = ProfilePresenter()
+        viewController.presenter = presenter
+        presenter.view = viewController
+        let mockProfileImageService = MockProfileImageService()
+        mockProfileImageService.setAvatarURL("https://example.com/mock-avatar.jpg")
+        presenter.profileImageService = mockProfileImageService
+        
+        //When
+        presenter.updateAvatar()
+        
+        //Then
+        XCTAssertTrue(viewController.updateAvatarCalled)
+        XCTAssertEqual(viewController.updatedAvatarURL, URL(string: "https://example.com/mock-avatar.jpg"))
+    }
+    
 }
