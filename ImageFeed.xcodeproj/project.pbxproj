@@ -52,6 +52,7 @@
 		5AC45DB92B32E3BB008AB03C /* MockProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC45DB82B32E3BB008AB03C /* MockProfileImageService.swift */; };
 		5AC45DBB2B32F98E008AB03C /* ProfileViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC45DBA2B32F98E008AB03C /* ProfileViewControllerSpy.swift */; };
 		5AC45DBD2B32F9A3008AB03C /* ProfilePresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC45DBC2B32F9A3008AB03C /* ProfilePresenterSpy.swift */; };
+		5AC45DBF2B345250008AB03C /* ImagesListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC45DBE2B345250008AB03C /* ImagesListPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,7 @@
 		5AC45DB82B32E3BB008AB03C /* MockProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockProfileImageService.swift; sourceTree = "<group>"; };
 		5AC45DBA2B32F98E008AB03C /* ProfileViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerSpy.swift; sourceTree = "<group>"; };
 		5AC45DBC2B32F9A3008AB03C /* ProfilePresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenterSpy.swift; sourceTree = "<group>"; };
+		5AC45DBE2B345250008AB03C /* ImagesListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				5A5CAFB52AD05BE30097497E /* ImagesListViewController.swift */,
+				5AC45DBE2B345250008AB03C /* ImagesListPresenter.swift */,
 				5A5CAFB72AD05BE30097497E /* Main.storyboard */,
 				5A5CAFEE2AD6C8F30097497E /* ImagesListCell.swift */,
 				5A5CAFF52AE41E740097497E /* SingleImageViewController.swift */,
@@ -437,6 +440,7 @@
 				5ABA00B22B1A724D002EDB08 /* DateFormatter.swift in Sources */,
 				5A6376092AFD67B500DEE036 /* OAuth2TokenStorage.swift in Sources */,
 				5A6375FC2AF4EB6100DEE036 /* Constants.swift in Sources */,
+				5AC45DBF2B345250008AB03C /* ImagesListPresenter.swift in Sources */,
 				5ABA00A12B1906A3002EDB08 /* ImagesListService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
