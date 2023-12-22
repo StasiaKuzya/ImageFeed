@@ -40,7 +40,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
             ) { [weak self] _ in
                 guard let self = self else { return }
                 print("Received DidChangeNotification")
-                view?.updateTableViewAnimated()
+                self.view?.updateTableViewAnimated()
             }
     }
     

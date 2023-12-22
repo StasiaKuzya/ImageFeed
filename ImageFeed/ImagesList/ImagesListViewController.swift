@@ -27,7 +27,7 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
 //    private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
-    private let imagesListService = ImagesListService.shared
+    var imagesListService: ImagesListServiceProtocol = ImagesListService.shared
     var photos: [Photo] = []
     private var imagelistServiceObserver: NSObjectProtocol?
     
@@ -43,8 +43,9 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
         super.init(coder: aDecoder)
     }
 
-    init() {
-        super.init(nibName: nil, bundle: nil)
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
         presenter = ImagesListPresenter(view: self, imagesListService: imagesListService)
     }
     
@@ -60,7 +61,6 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
         
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         
-        presenter = ImagesListPresenter(view: self, imagesListService: imagesListService)
         presenter?.fetchPhotos()
         presenter?.notifImagelistServiceObserver()
     }
