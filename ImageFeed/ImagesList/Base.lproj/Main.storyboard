@@ -40,6 +40,7 @@
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="43T-2T-vYa" userLabel="Like Button">
                                                     <rect key="frame" x="356" y="4" width="42" height="42"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="LikeButtom"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="42" id="4yQ-t4-fo4"/>
                                                         <constraint firstAttribute="width" constant="42" id="y3A-aP-evS"/>
@@ -150,6 +151,7 @@
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gOk-hq-EXI" userLabel="Back Button">
                                 <rect key="frame" x="8" y="9" width="48" height="48"/>
+                                <accessibility key="accessibilityConfiguration" identifier="BackButtonSingleView"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="AsG-hk-Puo"/>
                                     <constraint firstAttribute="height" constant="48" id="cWm-oY-1QX"/>
@@ -214,6 +216,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KL9-AO-DB6" userLabel="Entrance Button">
                                 <rect key="frame" x="16" y="724" width="382" height="48"/>
                                 <color key="backgroundColor" name="YP White"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Authenticate">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="85R-i7-oNE"/>
                                 </constraints>

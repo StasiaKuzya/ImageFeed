@@ -81,6 +81,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     }
     
     private func creationOfLogOutButton() {
+        logOutButton.accessibilityIdentifier = "LogOutButton"
         
         logOutButton.setImage(UIImage(named: "Exit"), for: .normal)
         logOutButton.addTarget(self, action: #selector(logOutButtonTapped), for: .touchUpInside)
@@ -98,6 +99,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     }
     
     private func creationOfUserName() {
+        userName.accessibilityIdentifier = "UserName"
         
         userName.text = "Name Surname"
         userName.font = UIFont(name: "SF Pro", size: 23)
@@ -115,6 +117,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     }
     
     private func creationOfUserLogin() {
+        userLogin.accessibilityIdentifier = "UserLogin"
         
         userLogin.text = "@test"
         userLogin.font = UIFont(name: "SF Pro", size: 13)
@@ -131,6 +134,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     }
     
     private func creationOfUserDescription() {
+        userDescription.accessibilityIdentifier = "UserDescription"
         
         userDescription.text = "test"
         userDescription.font = UIFont(name: "SF Pro", size: 13)

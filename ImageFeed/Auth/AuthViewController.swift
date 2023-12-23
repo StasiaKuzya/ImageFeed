@@ -27,6 +27,13 @@ class AuthViewController: UIViewController {
     
     @IBOutlet private weak var entranceButton: UIButton!
     
+    // MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        entranceButton.accessibilityIdentifier = "Authenticate"
+    }
+    
     // MARK: - Override Methods
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
