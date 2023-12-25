@@ -8,18 +8,11 @@
 import Foundation
 import SwiftKeychainWrapper
 
-//class OAuth2TokenStorage {
-//    var token: String? {
-//        get {
-//            return UserDefaults.standard.string(forKey: "BearerToken")
-//        }
-//        set {
-//            UserDefaults.standard.set(newValue, forKey: "BearerToken")
-//        }
-//    }
-//}
+protocol OAuth2TokenStorageProtocol {
+    var token: String? { get set }
+}
 
-class OAuth2TokenStorage {
+class OAuth2TokenStorage: OAuth2TokenStorageProtocol {
     var token: String? {
         get {
             return KeychainWrapper.standard.string(forKey: "BearerToken")

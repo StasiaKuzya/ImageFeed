@@ -12,7 +12,7 @@ protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
 }
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
     
     // MARK: -  Properties & Constants
     
@@ -22,17 +22,32 @@ class AuthViewController: UIViewController {
     let tokenStorage = OAuth2TokenStorage()
     
     weak var delegate: AuthViewControllerDelegate?
-
+    
     // MARK: - IBOutlet
     
     @IBOutlet private weak var entranceButton: UIButton!
     
+    // MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        entranceButton.accessibilityIdentifier = "Authenticate"
+    }
+    
     // MARK: - Override Methods
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowWebViewIdentifier,
-           let webViewViewController = segue.destination as? WebViewViewController
-        { webViewViewController.delegate = self
+        if segue.identifier == ShowWebViewIdentifier {
+            guard
+                let webViewViewController = segue.destination as? WebViewViewController
+            else { fatalError("Failed to prepare for \(ShowWebViewIdentifier)") }
+            let authHelper = AuthHelper()
+            let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+            webViewViewController.presenter = webViewPresenter
+            webViewPresenter.view = webViewViewController
+            webViewViewController.delegate = self
+        } else {
+            super.prepare(for: segue, sender: sender)
         }
     }
 }

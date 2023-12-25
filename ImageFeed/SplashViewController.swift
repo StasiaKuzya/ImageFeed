@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class SplashViewController: UIViewController {
+final class SplashViewController: UIViewController {
     
     // MARK: -  Properties & Constants
     
@@ -35,15 +35,6 @@ class SplashViewController: UIViewController {
             presentAuthViewController()
         }
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        setNeedsStatusBarAppearanceUpdate()
-//    }
-
-//    override var preferredStatusBarStyle: UIStatusBarStyle {
-//        .lightContent
-//    }
     
 // MARK: -  Private Methods
 
@@ -114,7 +105,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                         self.profileImageService.setAvatarURL(profileImageURL)
                         
                         NotificationCenter.default.post(
-                            name: ProfileImageService.DidChangeNotification,
+                            name: ProfileImageService.didChangeNotification,
                             object: self,
                             userInfo: ["URL": profileImageURL]
                         )
@@ -171,7 +162,5 @@ extension SplashViewController: AuthViewControllerDelegate {
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
-        
-        print("Switched to TabBarController")
     }
 }
