@@ -29,7 +29,7 @@ final class ProfileService: ProfileServiceProtocol {
         
         guard let token = OAuth2TokenStorage().token else { return }
         
-        let url = URL(string: "\(DefaultBaseURL)me")!
+        let url = URL(string: "\(UnsplashAPI.defaultBaseURL)me")!
         var request = URLRequest(url: url)
         
         // Устанавливаем заголовок Authorization с Bearer токеном

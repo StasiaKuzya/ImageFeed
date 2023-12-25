@@ -14,7 +14,7 @@ protocol ImagesListPresenterProtocol {
     func handleLikeButtonTap(for photo: Photo, at indexPath: IndexPath)
 }
 
-class ImagesListPresenter: ImagesListPresenterProtocol {
+final class ImagesListPresenter: ImagesListPresenterProtocol {
     
     weak var view: ImagesListViewControllerProtocol?
     private var imagelistServiceObserver: NSObjectProtocol?
@@ -34,7 +34,7 @@ class ImagesListPresenter: ImagesListPresenterProtocol {
         imagelistServiceObserver =
         NotificationCenter.default
             .addObserver(
-                forName: ImagesListService.DidChangeNotification,
+                forName: ImagesListService.didChangeNotification,
                 object: nil,
                 queue: .main
             ) { [weak self] _ in

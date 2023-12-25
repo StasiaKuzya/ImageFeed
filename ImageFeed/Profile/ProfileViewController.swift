@@ -177,7 +177,6 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
             self?.userName.text = profile.userName
             self?.userDescription.text = profile.userDescription
         }
-        print("Updating UI with profile data")
     }
     
     func updateAvatar(with url: URL, placeholder: UIImage?, options: KingfisherOptionsInfo?) {
@@ -193,7 +192,5 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let splashViewController = SplashViewController()
         window.rootViewController = splashViewController
-        
-        print("Switched to SplashViewController")
     }
 }

@@ -24,8 +24,6 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
     
     // MARK: - Private Properties
     
-//    private let photosName: [String] = Array(0..<20).map{ "\($0)" }
-    
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     var imagesListService: ImagesListServiceProtocol = ImagesListService.shared
     var photos: [Photo] = []
@@ -86,7 +84,6 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
 extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        print("photo count \(photos.count)")
         return photos.count
     }
     

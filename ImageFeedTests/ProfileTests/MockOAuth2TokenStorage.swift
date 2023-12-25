@@ -10,8 +10,4 @@ import Foundation
 
 class MockOAuth2TokenStorage: OAuth2TokenStorageProtocol {
     var token: String?
-    
-//    init(token: String? = nil) {
-//        self.token = token
-//    }
 }

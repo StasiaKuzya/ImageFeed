@@ -50,7 +50,6 @@
 		5ABA009F2B190680002EDB08 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA009E2B190680002EDB08 /* Photo.swift */; };
 		5ABA00A12B1906A3002EDB08 /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA00A02B1906A3002EDB08 /* ImagesListService.swift */; };
 		5ABA00A32B190B52002EDB08 /* PhotoResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA00A22B190B52002EDB08 /* PhotoResult.swift */; };
-		5ABA00B22B1A724D002EDB08 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA00B12B1A724D002EDB08 /* DateFormatter.swift */; };
 		5AC45DB92B32E3BB008AB03C /* MockProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC45DB82B32E3BB008AB03C /* MockProfileImageService.swift */; };
 		5AC45DBB2B32F98E008AB03C /* ProfileViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC45DBA2B32F98E008AB03C /* ProfileViewControllerSpy.swift */; };
 		5AC45DBD2B32F9A3008AB03C /* ProfilePresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC45DBC2B32F9A3008AB03C /* ProfilePresenterSpy.swift */; };
@@ -123,7 +122,6 @@
 		5ABA009E2B190680002EDB08 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		5ABA00A02B1906A3002EDB08 /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
 		5ABA00A22B190B52002EDB08 /* PhotoResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResult.swift; sourceTree = "<group>"; };
-		5ABA00B12B1A724D002EDB08 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		5AC45DB82B32E3BB008AB03C /* MockProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockProfileImageService.swift; sourceTree = "<group>"; };
 		5AC45DBA2B32F98E008AB03C /* ProfileViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerSpy.swift; sourceTree = "<group>"; };
 		5AC45DBC2B32F9A3008AB03C /* ProfilePresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenterSpy.swift; sourceTree = "<group>"; };
@@ -192,10 +190,12 @@
 				5A6375FF2AF8E17A00DEE036 /* Auth */,
 				5A98368F2B30AD270020F8E1 /* Profile */,
 				5A5CAFF02AD6C93B0097497E /* ImagesList */,
+				5A6DA09D2B39F599008A2111 /* SingleImage */,
 				5A5CAFF12AD6C9840097497E /* Helpers */,
 				5A5CAFF22AD6CA100097497E /* Resources */,
 				5A5CAFB32AD05BE30097497E /* SceneDelegate.swift */,
 				5A5CAFB12AD05BE30097497E /* AppDelegate.swift */,
+				5A5CAFB72AD05BE30097497E /* Main.storyboard */,
 				5A6375FB2AF4EB6100DEE036 /* Constants.swift */,
 				5A63760A2AFE590200DEE036 /* SplashViewController.swift */,
 				5A63760F2B0A521C00DEE036 /* UIBlockingProgressHUD.swift */,
@@ -208,9 +208,7 @@
 			children = (
 				5A5CAFB52AD05BE30097497E /* ImagesListViewController.swift */,
 				5AC45DBE2B345250008AB03C /* ImagesListPresenter.swift */,
-				5A5CAFB72AD05BE30097497E /* Main.storyboard */,
 				5A5CAFEE2AD6C8F30097497E /* ImagesListCell.swift */,
-				5A5CAFF52AE41E740097497E /* SingleImageViewController.swift */,
 			);
 			path = ImagesList;
 			sourceTree = "<group>";
@@ -220,7 +218,6 @@
 			children = (
 				5A5CAFEC2AD58EA10097497E /* UIColor+Extensions.swift */,
 				5A63761D2B0FA39400DEE036 /* URLSession+Extensions.swift */,
-				5ABA00B12B1A724D002EDB08 /* DateFormatter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -295,6 +292,14 @@
 				5A6DA0962B35F314008A2111 /* ImageFeedUITestsLaunchTests.swift */,
 			);
 			path = ImageFeedUITests;
+			sourceTree = "<group>";
+		};
+		5A6DA09D2B39F599008A2111 /* SingleImage */ = {
+			isa = PBXGroup;
+			children = (
+				5A5CAFF52AE41E740097497E /* SingleImageViewController.swift */,
+			);
+			path = SingleImage;
 			sourceTree = "<group>";
 		};
 		5A9836852B3098A40020F8E1 /* ImageFeedTests */ = {
@@ -517,7 +522,6 @@
 				5A98367D2B2EE8000020F8E1 /* WebViewPresenter.swift in Sources */,
 				5A6375FE2AF8D88A00DEE036 /* AuthViewController.swift in Sources */,
 				5A63761A2B0E183100DEE036 /* ProfileImageService.swift in Sources */,
-				5ABA00B22B1A724D002EDB08 /* DateFormatter.swift in Sources */,
 				5A6376092AFD67B500DEE036 /* OAuth2TokenStorage.swift in Sources */,
 				5A6375FC2AF4EB6100DEE036 /* Constants.swift in Sources */,
 				5AC45DBF2B345250008AB03C /* ImagesListPresenter.swift in Sources */,

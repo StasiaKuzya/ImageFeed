@@ -16,7 +16,7 @@ protocol ProfileImageServiceProtocol {
 
 final class ProfileImageService: ProfileImageServiceProtocol {
     
-    static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     static let shared = ProfileImageService()
     private (set) var avatarURL: String?
 
@@ -30,7 +30,7 @@ final class ProfileImageService: ProfileImageServiceProtocol {
 
         guard let token = OAuth2TokenStorage().token else { return }
         
-        let url = URL(string: "\(DefaultBaseURL)users/\(username)")!
+        let url = URL(string: "\(UnsplashAPI.defaultBaseURL)users/\(username)")!
         var request = URLRequest(url: url)
 
         // Устанавливаем заголовок Authorization с Bearer токеном

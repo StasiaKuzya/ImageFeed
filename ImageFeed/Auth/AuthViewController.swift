@@ -12,7 +12,7 @@ protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
 }
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
     
     // MARK: -  Properties & Constants
     

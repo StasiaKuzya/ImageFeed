@@ -18,10 +18,8 @@ class MockProfileImageService: ProfileImageServiceProtocol {
 
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         if shouldFetchProfileImageURLSucceed {
-            // Возвращаем предопределенный URL вместо реального запроса к сети
             completion(.success("https://example.com/mock-avatar.jpg"))
         } else {
-            // Возвращаем ошибку, если необходимо симулировать неудачный запрос
             completion(.failure(MockError.mockError))
         }
     }

@@ -25,7 +25,7 @@ protocol WebViewViewControllerDelegate: AnyObject {
 
 // MARK: -  Class WebViewViewController
 
-class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
+final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
     
     // MARK: -  Properties & Constants
     

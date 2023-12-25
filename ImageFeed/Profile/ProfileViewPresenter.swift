@@ -20,7 +20,7 @@ protocol ProfilePresenterProtocol {
     func updateAvatar()
 }
 
-class ProfilePresenter: ProfilePresenterProtocol {
+final class ProfilePresenter: ProfilePresenterProtocol {
     weak var view: ProfileViewControllerProtocol?
     private var profileImageServiceObserver: NSObjectProtocol?
     var profileImageService: ProfileImageServiceProtocol? = ProfileImageService.shared
@@ -37,7 +37,7 @@ class ProfilePresenter: ProfilePresenterProtocol {
     
     func observeAvatarChanges(){
         profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.DidChangeNotification,
+            forName: ProfileImageService.didChangeNotification,
             object: nil,
             queue: .main
         ) { [weak self] _ in

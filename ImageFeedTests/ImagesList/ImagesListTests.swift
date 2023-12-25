@@ -69,7 +69,7 @@ final class ImagesListTests: XCTestCase {
         
         //When
         presenter.notifImagelistServiceObserver()
-        NotificationCenter.default.post(name: ImagesListService.DidChangeNotification, object: nil)
+        NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: nil)
 
         //Then
         XCTAssertTrue(viewController.updateTableViewAnimatedCalled)

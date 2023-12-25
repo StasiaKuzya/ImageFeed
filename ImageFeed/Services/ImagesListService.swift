@@ -16,8 +16,8 @@ protocol ImagesListServiceProtocol {
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
 }
 
-class ImagesListService: ImagesListServiceProtocol {
-    static let DidChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+final class ImagesListService: ImagesListServiceProtocol {
+    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     static let shared = ImagesListService()
     
     private(set) var photos: [Photo] = []
@@ -32,7 +32,7 @@ class ImagesListService: ImagesListServiceProtocol {
         
         isFetching = true
         
-        let baseURL = URL(string: "\(DefaultBaseURL)")!
+        let baseURL = URL(string: "\(UnsplashAPI.defaultBaseURL)")!
         let photosURL = baseURL.appendingPathComponent("photos")
         
         var components = URLComponents(url: photosURL, resolvingAgainstBaseURL: true)
@@ -40,7 +40,7 @@ class ImagesListService: ImagesListServiceProtocol {
             URLQueryItem(name: "page", value: "\(lastLoadedPage ?? 1)"),
             URLQueryItem(name: "per_page", value: "10"),
             URLQueryItem(name: "order_by", value: "latest"),
-            URLQueryItem(name: "client_id", value: AccessKey)
+            URLQueryItem(name: "client_id", value: UnsplashAPI.accessKey)
         ]
         
         guard let url = components?.url else {
@@ -68,7 +68,7 @@ class ImagesListService: ImagesListServiceProtocol {
                 DispatchQueue.main.async {
                     self.photos.append(contentsOf: newPhotos)
                     self.lastLoadedPage = (self.lastLoadedPage ?? 1) + 1
-                    NotificationCenter.default.post(name: Self.DidChangeNotification, object: nil)
+                    NotificationCenter.default.post(name: Self.didChangeNotification, object: nil)
                 }
             case .failure(let error):
                 print("Error fetching photos: \(error)")
@@ -82,7 +82,7 @@ class ImagesListService: ImagesListServiceProtocol {
     
 extension ImagesListService {
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
-        let baseURL = URL(string: "\(DefaultBaseURL)")!
+        let baseURL = URL(string: "\(UnsplashAPI.defaultBaseURL)")!
         let likeURL = baseURL.appendingPathComponent("photos/\(photoId)/like")
         
         var request = URLRequest(url: likeURL)
@@ -108,7 +108,7 @@ extension ImagesListService {
                          )
                     self.photos = self.photos.withReplaced(itemAt: index, newValue: newPhoto)
                     completion(.success(()))
-                    NotificationCenter.default.post(name: Self.DidChangeNotification, object: nil)
+                    NotificationCenter.default.post(name: Self.didChangeNotification, object: nil)
                 } else {
                     completion(.failure(NSError(domain: "ImagesListService", code: 404, userInfo: nil)))
                 }

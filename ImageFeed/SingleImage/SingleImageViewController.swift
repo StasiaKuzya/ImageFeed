@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class SingleImageViewController: UIViewController {
+final class SingleImageViewController: UIViewController {
     
     // MARK: - Public Properties
     
